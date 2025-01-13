@@ -17,6 +17,7 @@ const DataVisa = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [selectedVisa, setSelectedVisa] = useState(null);
+    const [selectedDocument, setSelectedDocument] = useState(null)
     const [editMode, setEditMode] = useState(false);
     const countries = ['Все страны', 'USA', 'Canada', 'Germany', 'France'];
 
@@ -52,6 +53,7 @@ const DataVisa = () => {
         setEditMode(true);
         const visa = visas.find(visa => visa._id === id);
         setSelectedVisa(visa?.formData || {});
+        setSelectedDocument(visa?.files || [])
         setModalVisible(true);
     };
 
@@ -84,6 +86,8 @@ const DataVisa = () => {
             toast.error('Ошибка при сохранении данных');
         }
     };
+
+    console.log(selectedDocument);
 
 
     const confirmDelete = async () => {
@@ -243,29 +247,26 @@ const DataVisa = () => {
                                 {editMode && (
                                     <div className="col-span-2">
                                         <label className="block font-medium">Дополнительные файлы:</label>
-                                        {selectedVisa?.files && selectedVisa.files.length > 0 && (
-                                            <div className="col-span-2">
-                                                <label className="block font-medium">Дополнительные файлы:</label>
-                                                {selectedVisa.files.map((item, index) => (
-                                                    <a
-                                                        href={`http://localhost:5000/uploads/${encodeURIComponent(item.file)}`}
-                                                        key={index}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-blue-500 hover:underline block"
-                                                    >
-                                                        Ссылка {index + 1}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        )}
+                                        <div className="col-span-2">
+                                            {selectedDocument.map((item, index) => (
+                                                <a
+                                                    href={`http://localhost:5000/uploads/${encodeURIComponent(item.file)}`}
+                                                    key={index}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-500 hover:underline block"
+                                                >
+                                                    Ссылка {index + 1}
+                                                </a>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
                                 {['Имя', 'Фамилия', 'Дата рождения'].map((label, idx) => (
                                     <div key={idx} className="w-full">
                                         <label className="block font-medium">{label}:</label>
                                         <input
-                                            type="text"
+                                            type={`${idx === 2 ? 'date' : 'text'}`}
                                             name={`permit_${['fname', 'lname', 'bdate'][idx]}`}
                                             value={selectedVisa[`permit_${['fname', 'lname', 'bdate'][idx]}`]}
                                             onChange={handleInputChange}
@@ -314,7 +315,7 @@ const DataVisa = () => {
                                     <div key={idx} className="w-full">
                                         <label className="block font-medium">{label}:</label>
                                         <input
-                                            type="text"
+                                            type={`${idx === 2 ? 'date' : 'text'}`}
                                             name={`permit_${['doctype', 'doc_nom', 'docstart'][idx]}`}
                                             value={selectedVisa[`permit_${['doctype', 'doc_nom', 'docstart'][idx]}`]}
                                             onChange={handleInputChange}
@@ -326,7 +327,7 @@ const DataVisa = () => {
                                     <div key={idx} className="w-full">
                                         <label className="block font-medium">{label}:</label>
                                         <input
-                                            type="text"
+                                            type={`${idx === 0 ? 'date' : 'text'}`}
                                             name={`permit_${['docend', 'type', 'srok'][idx]}`}
                                             value={selectedVisa[`permit_${['docend', 'type', 'srok'][idx]}`]}
                                             onChange={handleInputChange}
@@ -338,7 +339,7 @@ const DataVisa = () => {
                                     <div key={idx} className="w-full">
                                         <label className="block font-medium">{label}:</label>
                                         <input
-                                            type="text"
+                                            type={`${idx === 0 ? 'date' : idx === 1 ? 'date' : 'text'}`}
                                             name={`permit_${['planned_entry', 'planned_exit', 'education'][idx]}`}
                                             value={selectedVisa[`permit_${['planned_entry', 'planned_exit', 'education'][idx]}`]}
                                             onChange={handleInputChange}
