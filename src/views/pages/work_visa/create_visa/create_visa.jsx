@@ -21,14 +21,10 @@ const CreateVisa = () => {
         permit_bdate: '',
         permit_gender: '',
         permit_pin: '',
-        permit_email: '',
         permit_education: '',
         permit_famstatus: '',
-        permit_address: '',
         permit_planned_entry: '',
         permit_planned_exit: '',
-        permit_position: '',
-        permit_region: '',
         selectedVisa: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,9 +57,8 @@ const CreateVisa = () => {
         const { selectedImage, additionalFiles, permit_country, permit_type,
             permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
             permit_lname, permit_fname, permit_bdate, permit_gender,
-            permit_pin, permit_email, permit_education, permit_famstatus, permit_address,
-            permit_planned_entry, permit_planned_exit, permit_position, permit_region,
-            selectedVisa } = formData;
+            permit_pin, permit_education, permit_famstatus,
+            permit_planned_entry, permit_planned_exit } = formData;
         const formDataToSubmit = new FormData();
 
         if (selectedImage) formDataToSubmit.append('photo', selectedImage);
@@ -79,22 +74,17 @@ const CreateVisa = () => {
         formDataToSubmit.append('permit_bdate', permit_bdate);
         formDataToSubmit.append('permit_gender', permit_gender);
         formDataToSubmit.append('permit_pin', permit_pin);
-        formDataToSubmit.append('permit_email', permit_email);
         formDataToSubmit.append('permit_education', permit_education);
         formDataToSubmit.append('permit_famstatus', permit_famstatus);
-        formDataToSubmit.append('permit_address', permit_address);
         formDataToSubmit.append('permit_planned_entry', permit_planned_entry);
         formDataToSubmit.append('permit_planned_exit', permit_planned_exit);
-        formDataToSubmit.append('permit_position', permit_position);
-        formDataToSubmit.append('permit_region', permit_region);
-        formDataToSubmit.append('selectedVisa', selectedVisa);
 
         additionalFiles.forEach((file) => {
             formDataToSubmit.append('additionalFiles', file);
         });
 
         try {
-            await api.post('/api/saveFormData', formDataToSubmit, {
+            await api.post('/api/localsaveFormData', formDataToSubmit, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -116,15 +106,10 @@ const CreateVisa = () => {
                 permit_bdate: '',
                 permit_gender: '',
                 permit_pin: '',
-                permit_email: '',
                 permit_education: '',
                 permit_famstatus: '',
-                permit_address: '',
                 permit_planned_entry: '',
                 permit_planned_exit: '',
-                permit_position: '',
-                permit_region: '',
-                selectedVisa: '',
             });
         } catch (error) {
             console.error(error);
@@ -137,9 +122,8 @@ const CreateVisa = () => {
     const { selectedImage, additionalFiles, permit_country, permit_type
         , permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
         permit_lname, permit_fname, permit_bdate, permit_gender,
-        permit_pin, permit_email, permit_education, permit_famstatus, permit_address,
-        permit_planned_entry, permit_planned_exit, permit_position, permit_region,
-        selectedVisa
+        permit_pin, permit_education, permit_famstatus,
+        permit_planned_entry, permit_planned_exit,
     } = formData;
 
     return (
