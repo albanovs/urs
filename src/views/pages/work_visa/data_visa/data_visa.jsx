@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { CCard, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton } from '@coreui/react';
+import { CCard, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton, CTable, CTableHead, CTableBody } from '@coreui/react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { PiUserCircleLight } from "react-icons/pi";
 import { api } from 'src/api';
+import VisaPhotoSection from './components/visa_photo';
+import VisaDocuments from './components/visa_document';
+import VisaDetails from './components/visa_details';
+import ReactLoading from 'react-loading';
 
 const DataVisa = () => {
     const [visas, setVisas] = useState([]);
@@ -20,17 +23,22 @@ const DataVisa = () => {
     const [selectedVisa, setSelectedVisa] = useState(null);
     const [selectedDocument, setSelectedDocument] = useState(null)
     const [editMode, setEditMode] = useState(false);
-    const countries = ['Все страны', 'USA', 'Canada', 'Germany', 'France'];
+    const [isLoading, setIsLoading] = useState(false);
+    const countries = ['Все страны', 'Сербия', 'Хорватия', 'Россия', 'Кыргызстан'];
 
 
     const fetchData = async () => {
+        setIsLoading(true);
         try {
             const response = await api.get('/api/getworkvisa');
             setVisas(response.data);
         } catch (error) {
             console.error('Ошибка при загрузке данных', error);
+        } finally {
+            setIsLoading(false);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -43,9 +51,11 @@ const DataVisa = () => {
             visa.formData?.permit_doc_nom?.toLowerCase().includes(searchTerm);
 
         const matchesCountry = selectedCountry === 'Все страны' || visa.formData?.permit_country === selectedCountry;
+        const visaStartDate = visa.formData?.permit_planned_entry ? new Date(visa.formData.permit_planned_entry) : null;
+        const visaEndDate = visa.formData?.permit_planned_exit ? new Date(visa.formData.permit_planned_exit) : null;
 
-        const matchesStartDate = !startDate || new Date(visa.formData?.permit_planned_entry) >= startDate;
-        const matchesEndDate = !endDate || new Date(visa.formData?.permit_planned_exit) <= endDate;
+        const matchesStartDate = !startDate || (visaStartDate && visaStartDate >= startDate);
+        const matchesEndDate = !endDate || (visaEndDate && visaEndDate <= endDate);
 
         return matchesSearch && matchesCountry && matchesStartDate && matchesEndDate;
     });
@@ -58,7 +68,6 @@ const DataVisa = () => {
         setModalVisible(true);
         setUpdateID(id)
     };
-
     const handleDelete = (id) => {
         const visa = visas.find(visa => visa._id === id);
         setSelectedVisa(visa?.formData || {});
@@ -151,60 +160,76 @@ const DataVisa = () => {
                     </div>
                 </div>
 
-                <CCard className="overflow-x-auto min-h-96 border mt-4 border-gray-200">
-                    <table className="w-full text-left table-auto">
-                        <thead className=" text-xs sm:text-sm">
-                            <tr>
-                                <th className="px-4 py-2 font-semibold border-b">Фото</th>
-                                <th className="px-4 py-2 font-semibold border-b">Имя</th>
-                                <th className="px-4 py-2 font-semibold border-b">Фамилия</th>
-                                <th className="px-4 py-2 font-semibold border-b">Номер паспорта</th>
-                                <th className="px-4 py-2 font-semibold border-b">Начало</th>
-                                <th className="px-4 py-2 font-semibold border-b">Окончание</th>
-                                <th className="px-4 py-2 font-semibold border-b">Страна</th>
-                                <th className="px-4 py-2 font-semibold border-b">Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-xs sm:text-sm">
-                            {filteredVisas.map((visa) => (
-                                <tr key={visa._id} className="border-b transition duration-200">
-                                    <td className="px-4 py-2">
-                                        {visa.photo ? (
-                                            <img
-                                                src={`${api.defaults.baseURL}/uploads/${visa.photo}`}
-                                                alt="Фото"
-                                                className="w-9 h-9 object-cover rounded-full"
-                                            />
-                                        ) : (
-                                            <PiUserCircleLight size={40} color="gray" />
-                                        )}
-                                    </td>
-                                    <td className="px-4">{visa.formData?.permit_fname || 'N/A'}</td>
-                                    <td className="px-4">{visa.formData?.permit_lname || 'N/A'}</td>
-                                    <td className="px-4">{visa.formData?.permit_doc_nom || 'N/A'}</td>
-                                    <td className="px-4">
-                                        {visa.formData?.permit_planned_entry
-                                            ? new Date(visa.formData.permit_planned_entry).toLocaleDateString()
-                                            : 'N/A'}
-                                    </td>
-                                    <td className="px-4">
-                                        {visa.formData?.permit_planned_exit
-                                            ? new Date(visa.formData.permit_planned_exit).toLocaleDateString()
-                                            : 'N/A'}
-                                    </td>
-                                    <td className="px-4">{visa.formData?.permit_country || 'N/A'}</td>
-                                    <td className="px-4 flex gap-4 pt-3">
-                                        <button onClick={() => handleEdit(visa._id,)} className="text-green-500 hover:text-green-700">
-                                            <FaEdit />
-                                        </button>
-                                        <button onClick={() => handleDelete(visa._id)} className="text-red-500 hover:text-red-700">
-                                            <FaTrash />
-                                        </button>
-                                    </td>
+                <CCard className="overflow-x-auto min-h-96 border mt-4">
+                    <div style={{ maxHeight: '420px', overflowY: 'auto' }}>
+                        <CTable className="w-full text-left table-auto">
+                            <CTableHead className="text-xs sm:text-sm">
+                                <tr>
+                                    <th className="px-4 py-2 font-semibold">Фото</th>
+                                    <th className="px-4 py-2 font-semibold">Имя</th>
+                                    <th className="px-4 py-2 font-semibold">Фамилия</th>
+                                    <th className="px-4 py-2 font-semibold">Номер паспорта</th>
+                                    <th className="px-4 py-2 font-semibold">Начало</th>
+                                    <th className="px-4 py-2 font-semibold">Окончание</th>
+                                    <th className="px-4 py-2 font-semibold">Страна</th>
+                                    <th className="px-4 py-2 font-semibold">Действия</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </CTableHead>
+                            <CTableBody className="text-xs sm:text-sm">
+                                {
+                                    isLoading ?
+                                        <tr>
+                                            <td colSpan="8" className="px-4 py-2 text-center">
+                                                <ReactLoading type="bubbles" color="#000" height={20} width={20} />
+                                            </td>
+                                        </tr>
+                                        : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
+                                            <tr key={visa._id} className="border-b transition duration-200">
+                                                <td className="px-4 py-2">
+                                                    {visa.formData?.photo ? (
+                                                        <img
+                                                            src={`${api.defaults.baseURL}/uploads/${visa.formData?.photo}`}
+                                                            alt="Фото"
+                                                            className="w-6 h-6 object-cover rounded-full"
+                                                        />
+                                                    ) : (
+                                                        <div className='w-6 h-6'></div>
+                                                    )}
+                                                </td>
+                                                <td className="px-4">{visa.formData?.permit_fname || 'N/A'}</td>
+                                                <td className="px-4">{visa.formData?.permit_lname || 'N/A'}</td>
+                                                <td className="px-4">{visa.formData?.permit_doc_nom || 'N/A'}</td>
+                                                <td className="px-4">
+                                                    {visa.formData?.permit_planned_entry
+                                                        ? new Date(visa.formData.permit_planned_entry).toLocaleDateString()
+                                                        : 'N/A'}
+                                                </td>
+                                                <td className="px-4">
+                                                    {visa.formData?.permit_planned_exit
+                                                        ? new Date(visa.formData.permit_planned_exit).toLocaleDateString()
+                                                        : 'N/A'}
+                                                </td>
+                                                <td className="px-4">{visa.formData?.permit_country || 'N/A'}</td>
+                                                <td className="px-4 flex gap-4 pt-3">
+                                                    <button onClick={() => handleEdit(visa._id)} className="text-green-500 hover:text-green-700">
+                                                        <FaEdit />
+                                                    </button>
+                                                    <button onClick={() => handleDelete(visa._id)} className="text-red-500 hover:text-red-700">
+                                                        <FaTrash />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )) : (
+                                            <tr>
+                                                <td colSpan="8" className="px-4 py-2 text-center">
+                                                    Нет данных
+                                                </td>
+                                            </tr>
+                                        )
+                                }
+                            </CTableBody>
+                        </CTable>
+                    </div>
                 </CCard>
             </div>
             {
@@ -222,144 +247,12 @@ const DataVisa = () => {
                         </CModalHeader>
                         <CModalBody>
                             {selectedVisa && (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-                                    <div className="flex flex-col items-center col-span-1">
-                                        {selectedVisa.photo ? (
-                                            <img
-                                                src={`${api.defaults.baseURL}/uploads/${selectedVisa.photo}`}
-                                                alt="Фото визы"
-                                                className="w-28 h-36 object-cover mb-2 border rounded-md"
-                                            />
-                                        ) : <PiUserCircleLight className='w-28 h-36 mb-2' color='gray' />
-                                        }
-                                        {editMode && (
-                                            <label className="block">
-                                                <input
-                                                    type="file"
-                                                    onChange={handleFileChange}
-                                                    className="hidden"
-                                                />
-                                                <span className="bg-indigo-500 text-white px-3 py-1 rounded cursor-pointer hover:bg-indigo-600">
-                                                    Изменить фото
-                                                </span>
-                                            </label>
-                                        )}
+                                <div className="flex lg:flex-row flex-col gap-5">
+                                    <div className="flex flex-col gap-4">
+                                        <VisaPhotoSection selectedVisa={selectedVisa} editMode={editMode} handleFileChange={handleFileChange} />
+                                        {editMode && <VisaDocuments selectedDocument={selectedDocument} />}
                                     </div>
-                                    {editMode && (
-                                        <div className="col-span-2">
-                                            <label className="block font-medium">Дополнительные файлы:</label>
-                                            <div className="col-span-2">
-                                                {selectedDocument.map((item, index) => (
-                                                    <a
-                                                        href={`${api.defaults.baseURL}/uploads/${encodeURIComponent(item.file)}`}
-                                                        key={index}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-blue-500 hover:underline block"
-                                                    >
-                                                        Ссылка {index + 1}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                    {['Имя', 'Фамилия', 'Дата рождения'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            <input
-                                                type={`${idx === 2 ? 'date' : 'text'}`}
-                                                name={`permit_${['fname', 'lname', 'bdate'][idx]}`}
-                                                value={selectedVisa[`permit_${['fname', 'lname', 'bdate'][idx]}`]}
-                                                onChange={handleInputChange}
-                                                className="form-control text-xs"
-                                            />
-                                        </div>
-                                    ))}
-                                    {['Страна', 'Пол', 'Семейное положение'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            {idx === 0 ? (
-                                                <select
-                                                    name="permit_country"
-                                                    value={selectedVisa.permit_country}
-                                                    onChange={handleInputChange}
-                                                    className="form-control text-xs"
-                                                >
-                                                    {countries.map((country) => (
-                                                        <option key={country} value={country}>
-                                                            {country}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            ) : idx === 1 ? (
-                                                <select
-                                                    name="permit_gender"
-                                                    value={selectedVisa.permit_gender === "1" ? "Мужской" : "Женский"}
-                                                    onChange={handleInputChange}
-                                                    className="form-control text-xs"
-                                                >
-                                                    <option value="1">Мужской</option>
-                                                    <option value="2">Женский</option>
-                                                </select>
-                                            ) : (
-                                                <input
-                                                    type="text"
-                                                    name={`permit_${['gender', 'famstatus'][idx - 1]}`}
-                                                    value={selectedVisa[`permit_${['gender', 'famstatus'][idx - 1]}`]}
-                                                    onChange={handleInputChange}
-                                                    className="form-control text-xs"
-                                                />
-                                            )}
-                                        </div>
-                                    ))}
-                                    {['Тип документа', 'Номер документа', 'Документ действителен от'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            <input
-                                                type={`${idx === 2 ? 'date' : 'text'}`}
-                                                name={`permit_${['doctype', 'doc_nom', 'docstart'][idx]}`}
-                                                value={selectedVisa[`permit_${['doctype', 'doc_nom', 'docstart'][idx]}`]}
-                                                onChange={handleInputChange}
-                                                className="form-control text-xs"
-                                            />
-                                        </div>
-                                    ))}
-                                    {['Документ действителен до', 'Тип единого разрешения', 'Срок единого разрешения'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            <input
-                                                type={`${idx === 0 ? 'date' : 'text'}`}
-                                                name={`permit_${['docend', 'type', 'srok'][idx]}`}
-                                                value={selectedVisa[`permit_${['docend', 'type', 'srok'][idx]}`]}
-                                                onChange={handleInputChange}
-                                                className="form-control text-xs"
-                                            />
-                                        </div>
-                                    ))}
-                                    {['Плановая дата въезда', 'Плановая дата выезда', 'Образование'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            <input
-                                                type={`${idx === 0 ? 'date' : idx === 1 ? 'date' : 'text'}`}
-                                                name={`permit_${['planned_entry', 'planned_exit', 'education'][idx]}`}
-                                                value={selectedVisa[`permit_${['planned_entry', 'planned_exit', 'education'][idx]}`]}
-                                                onChange={handleInputChange}
-                                                className="form-control text-xs"
-                                            />
-                                        </div>
-                                    ))}
-                                    {['ПИН', 'Должность', 'Адрес проживания'].map((label, idx) => (
-                                        <div key={idx} className="w-full">
-                                            <label className="block font-medium">{label}:</label>
-                                            <input
-                                                type="text"
-                                                name={`permit_${['pin', 'position', 'address'][idx]}`}
-                                                value={selectedVisa[`permit_${['pin', 'position', 'address'][idx]}`]}
-                                                onChange={handleInputChange}
-                                                className="form-control text-xs"
-                                            />
-                                        </div>
-                                    ))}
+                                    <VisaDetails countries={countries} selectedVisa={selectedVisa} handleInputChange={handleInputChange} />
                                 </div>
                             )}
                         </CModalBody>
