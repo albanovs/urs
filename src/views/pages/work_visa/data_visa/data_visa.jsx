@@ -171,7 +171,7 @@ const DataVisa = () => {
                                     <td className="px-4 py-2">
                                         {visa.photo ? (
                                             <img
-                                                src={`http://localhost:5000/uploads/${visa.photo}`}
+                                                src={`${api.defaults.baseURL}/uploads/${visa.photo}`}
                                                 alt="Фото"
                                                 className="w-9 h-9 object-cover rounded-full"
                                             />
@@ -226,7 +226,7 @@ const DataVisa = () => {
                                     <div className="flex flex-col items-center col-span-1">
                                         {selectedVisa.photo ? (
                                             <img
-                                                src={`http://localhost:5000/uploads/${selectedVisa.photo}`}
+                                                src={`${api.defaults.baseURL}/uploads/${selectedVisa.photo}`}
                                                 alt="Фото визы"
                                                 className="w-28 h-36 object-cover mb-2 border rounded-md"
                                             />
@@ -251,7 +251,7 @@ const DataVisa = () => {
                                             <div className="col-span-2">
                                                 {selectedDocument.map((item, index) => (
                                                     <a
-                                                        href={`http://localhost:5000/uploads/${encodeURIComponent(item.file)}`}
+                                                        href={`${api.defaults.baseURL}/uploads/${encodeURIComponent(item.file)}`}
                                                         key={index}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
