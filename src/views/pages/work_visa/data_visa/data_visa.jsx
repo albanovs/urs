@@ -131,12 +131,12 @@ const DataVisa = () => {
                             placeholder="Поиск по имени, фамилии или номер паспорта"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="p-2 border border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
+                            className="p-2 border bg-inherit border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
                         />
                         <select
                             value={selectedCountry}
                             onChange={(e) => setSelectedCountry(e.target.value)}
-                            className="p-2 border border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
+                            className="p-2 border bg-inherit border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
                         >
                             {countries.map(country => (
                                 <option key={country} value={country}>{country}</option>
@@ -149,13 +149,13 @@ const DataVisa = () => {
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
                             placeholderText="Начальная дата"
-                            className="p-2 border border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
+                            className="p-2 border bg-inherit border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
                         />
                         <DatePicker
                             selected={endDate}
                             onChange={(date) => setEndDate(date)}
                             placeholderText="Конечная дата"
-                            className="p-2 border border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
+                            className="p-2 border bg-inherit border-gray-300 rounded-lg text-xs sm:text-sm shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
                         />
                     </div>
                 </div>
@@ -179,9 +179,7 @@ const DataVisa = () => {
                                 {
                                     isLoading ?
                                         <tr>
-                                            <td colSpan="8" className="px-4 py-2 text-center">
-                                                <ReactLoading type="bubbles" color="#000" height={20} width={20} />
-                                            </td>
+                                            <ReactLoading effect="spin" type="bubbles" className="border-none" color="#0394fc" height={60} width={60} />
                                         </tr>
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
                                             <tr key={visa._id} className="border-b transition duration-200">

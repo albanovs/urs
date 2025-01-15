@@ -215,7 +215,11 @@ const CreateVisa = () => {
                                     name="permit_country"
                                     options={[
                                         { value: "103", label: "Индия" },
-                                        { value: "2", label: "Другая" }
+                                        { value: "19", label: "Бангладеш" },
+                                        { value: "58", label: "Хорватия" },
+                                        { value: "183", label: "Россия" },
+                                        { value: "197", label: "Сербия" },
+                                        { value: "", label: "Другое" },
                                     ]}
                                     required
                                 />
