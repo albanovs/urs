@@ -7,7 +7,7 @@ export const FormInput = ({ label, type = "text", value, onChange, name, options
                     value={value}
                     onChange={onChange}
                     name={name}
-                    className="lg:w-80 bg-inherit w-full border border-gray-300 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="lg:w-50 bg-inherit w-full border border-gray-300 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required={required}
                     {...props}
                 >
@@ -22,7 +22,7 @@ export const FormInput = ({ label, type = "text", value, onChange, name, options
                     value={value}
                     onChange={onChange}
                     name={name}
-                    className="lg:w-80 bg-inherit w-full border border-gray-300 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="lg:w-50 bg-inherit w-full border border-gray-300 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required={required}
                     autoComplete="off"
                     {...props}

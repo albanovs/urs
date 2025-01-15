@@ -129,7 +129,7 @@ const CreateVisa = () => {
     return (
         <CCard className="w-full rounded-xl p-4 mb-4">
             <form onSubmit={onSubmit}>
-                <div className="grid grid-cols-1 sm:grid-cols-[180px,3fr] gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-[150px,3fr] gap-3">
                     <div className="flex justify-center">
                         <div
                             className="w-40 h-56 border border-gray-300 rounded-lg flex items-center justify-center cursor-pointer"
