@@ -5,11 +5,7 @@ import { useSelector } from 'react-redux'
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 import './App.css'
-
-// Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
-
-// Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
@@ -33,6 +29,14 @@ const App = () => {
     setColorMode(storedTheme)
   }, [])
 
+  const PrivateRoute = ({ element }) => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      return element
+    }
+    return <Login />
+  }
+
   return (
     <HashRouter>
       <Suspense
@@ -44,10 +48,9 @@ const App = () => {
       >
         <Routes>
           <Route exact path="/login" name="Login Page" element={<Login />} />
-          <Route exact path="/register" name="Register Page" element={<Register />} />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="*" name="Home" element={<PrivateRoute element={<DefaultLayout />} />} />
         </Routes>
       </Suspense>
     </HashRouter>
