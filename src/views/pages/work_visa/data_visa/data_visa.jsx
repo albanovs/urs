@@ -24,7 +24,7 @@ const DataVisa = () => {
     const [selectedDocument, setSelectedDocument] = useState(null)
     const [editMode, setEditMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const countries = ['Все страны', 'Сербия', 'Хорватия', 'Россия', 'Кыргызстан'];
+    const countries = ['Все страны', 'Сербия', 'Хорватия', 'Россия', , 'Бангладеш', 'Кыргызстан'];
 
 
     const fetchData = async () => {
@@ -114,13 +114,6 @@ const DataVisa = () => {
         setSelectedVisa(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setSelectedVisa(prevState => ({ ...prevState, photo: file }));
-        }
-    };
-
     return (
         <CCard>
             <div className="lg:p-5">
@@ -184,15 +177,21 @@ const DataVisa = () => {
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
                                             <tr key={visa._id} className="border-b transition duration-200">
                                                 <td className="px-4 py-2">
-                                                    {visa.formData?.photo ? (
+                                                    {visa.files && visa.files[0] ? (
                                                         <img
-                                                            src={`${api.defaults.baseURL}/uploads/${visa.formData?.photo}`}
+                                                            src={`${api.defaults.baseURL}/uploads/${visa.files[0].file}`}
                                                             alt="Фото"
                                                             className="w-6 h-6 object-cover rounded-full"
                                                         />
-                                                    ) : (
-                                                        <div className='w-6 h-6'></div>
-                                                    )}
+                                                    ) : visa.formData?.photo ?
+                                                        <img
+                                                            src={`${api.defaults.baseURL}/uploads/${visa.formData.photo}`}
+                                                            alt="Фото"
+                                                            className="w-6 h-6 object-cover rounded-full"
+                                                        />
+                                                        : (
+                                                            <div className='w-6 h-6'></div>
+                                                        )}
                                                 </td>
                                                 <td className="px-4">{visa.formData?.permit_fname || 'N/A'}</td>
                                                 <td className="px-4">{visa.formData?.permit_lname || 'N/A'}</td>
@@ -247,7 +246,7 @@ const DataVisa = () => {
                             {selectedVisa && (
                                 <div className="flex lg:flex-row flex-col gap-5">
                                     <div className="flex flex-col gap-4">
-                                        <VisaPhotoSection selectedVisa={selectedVisa} editMode={editMode} handleFileChange={handleFileChange} />
+                                        <VisaPhotoSection visa={filteredVisas} selectedVisa={selectedVisa} />
                                         {editMode && <VisaDocuments selectedDocument={selectedDocument} />}
                                     </div>
                                     <VisaDetails countries={countries} selectedVisa={selectedVisa} handleInputChange={handleInputChange} />

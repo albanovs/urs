@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (visas.length > 0) {
-      const countries = ['Россия', 'Хорватия', 'Сербия', 'Кыргызстан'];
+      const countries = ['Бангладеш','Россия', 'Хорватия', 'Сербия', 'Кыргызстан'];
       const countryCount = new Array(countries.length).fill(0);
       const currentYear = new Date().getFullYear();
       const currentMonth = new Date().getMonth();
