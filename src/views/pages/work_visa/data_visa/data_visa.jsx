@@ -10,6 +10,7 @@ import VisaPhotoSection from './components/visa_photo';
 import VisaDocuments from './components/visa_document';
 import VisaDetails from './components/visa_details';
 import ReactLoading from 'react-loading';
+import { PiUserCircleLight } from 'react-icons/pi';
 
 const DataVisa = () => {
     const [visas, setVisas] = useState([]);
@@ -177,20 +178,16 @@ const DataVisa = () => {
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
                                             <tr key={visa._id} className="border-b transition duration-200">
                                                 <td className="px-4 py-2">
-                                                    {visa.files && visa.files[0] ? (
+                                                    {visa.formData?.photo ?
                                                         <img
-                                                            src={`${api.defaults.baseURL}/uploads/${visa.files[0].file}`}
-                                                            alt="Фото"
-                                                            className="w-6 h-6 object-cover rounded-full"
-                                                        />
-                                                    ) : visa.formData?.photo ?
-                                                        <img
-                                                            src={`${api.defaults.baseURL}/uploads/${visa.formData.photo}`}
+                                                            src={`${visa.formData.photo}`}
                                                             alt="Фото"
                                                             className="w-6 h-6 object-cover rounded-full"
                                                         />
                                                         : (
-                                                            <div className='w-6 h-6'></div>
+                                                            <div className='w-6 h-6'>
+                                                                <PiUserCircleLight className="w-6 h-6" color="gray" />
+                                                            </div>
                                                         )}
                                                 </td>
                                                 <td className="px-4">{visa.formData?.permit_fname || 'N/A'}</td>
