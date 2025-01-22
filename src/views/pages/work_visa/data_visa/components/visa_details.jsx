@@ -38,7 +38,7 @@ const VisaDetails = ({ selectedVisa, handleInputChange, countries }) => (
                     label={label}
                     type={isDate ? 'date' : 'text'}
                     name={`permit_${field}`}
-                    value={isSelect ? selectedVisa[field] === '1' ? 'Мужской' : 'Женский' : selectedVisa[`permit_${field}`]}
+                    value={isSelect ? selectedVisa[`permit_${field}`] === '1' ? 'Мужской' : 'Женский' : selectedVisa[`permit_${field}`]}
                     onChange={handleInputChange}
                     options={isSelect ? (field === 'gender' ? genderOptions : selectOptions) : []}
                 />
