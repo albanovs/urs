@@ -26,6 +26,7 @@ const CreateVisa = () => {
         permit_planned_entry: '',
         permit_planned_exit: '',
         permit_email: '',
+        permit_address: '',
         selectedVisa: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,7 +60,7 @@ const CreateVisa = () => {
             permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
             permit_lname, permit_fname, permit_bdate, permit_gender,
             permit_pin, permit_education, permit_famstatus,
-            permit_planned_entry, permit_planned_exit, permit_email } = formData;
+            permit_planned_entry, permit_planned_exit, permit_email, permit_address } = formData;
         const formDataToSubmit = new FormData();
 
         if (selectedImage) formDataToSubmit.append('photo', selectedImage);
@@ -80,6 +81,7 @@ const CreateVisa = () => {
         formDataToSubmit.append('permit_planned_entry', permit_planned_entry);
         formDataToSubmit.append('permit_planned_exit', permit_planned_exit);
         formDataToSubmit.append('permit_email', permit_email);
+        formDataToSubmit.append('permit_address', permit_address);
 
         additionalFiles.forEach((file) => {
             formDataToSubmit.append('additionalFiles', file);
@@ -113,6 +115,7 @@ const CreateVisa = () => {
                 permit_planned_entry: '',
                 permit_planned_exit: '',
                 permit_email: '',
+                permit_address: '',
             });
         } catch (error) {
             console.error(error);
@@ -126,7 +129,7 @@ const CreateVisa = () => {
         , permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
         permit_lname, permit_fname, permit_bdate, permit_gender,
         permit_pin, permit_education, permit_famstatus,
-        permit_planned_entry, permit_planned_exit, permit_email
+        permit_planned_entry, permit_planned_exit, permit_email, permit_address
     } = formData;
 
     return (
@@ -273,6 +276,8 @@ const CreateVisa = () => {
                                 />
                                 <FormInput label="Плановая дата въезда" type="date" value={permit_planned_entry} onChange={handleChange} name="permit_planned_entry" required />
                                 <FormInput label="Плановая дата выезда" type="date" value={permit_planned_exit} onChange={handleChange} name="permit_planned_exit" required />
+                                <FormInput label="email" type="text" value={permit_email} onChange={handleChange} name="permit_email" required />
+                                <FormInput label="Адрес проживания" type="text" value={permit_address} onChange={handleChange} name="permit_address" required />
                             </div>
                         </div>
                     </div>
@@ -300,7 +305,6 @@ const CreateVisa = () => {
                             multiple
                             className="hidden"
                         />
-                        <FormInput label="email" type="text" value={permit_email} onChange={handleChange} name="permit_email" required />
                     </div>
                     <div className="">
                         <button
