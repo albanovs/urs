@@ -5,7 +5,7 @@ const VisaDocuments = ({ selectedDocument }) => (
         <div className="col-span-2">
             {selectedDocument.map((item, index) => (
                 <a
-                    href={`${api.defaults.baseURL}/uploads/${encodeURIComponent(item.file)}`}
+                    href={`${encodeURIComponent(item.file)}`}
                     key={index}
                     target="_blank"
                     rel="noopener noreferrer"
