@@ -162,7 +162,7 @@ const DataVisa = () => {
                                     <th className="px-4 py-2 font-semibold">Фото</th>
                                     <th className="px-4 py-2 font-semibold">Имя</th>
                                     <th className="px-4 py-2 font-semibold">Фамилия</th>
-                                    <th className="px-4 py-2 font-semibold">Данные паспорта</th>
+                                    <th className="px-4 py-2 font-semibold">Данные документа</th>
                                     <th className="px-4 py-2 font-semibold">Начало действия визы</th>
                                     <th className="px-4 py-2 font-semibold">Окончание действия визы</th>
                                     <th className="px-4 py-2 font-semibold">Страна</th>

@@ -34,7 +34,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Туристические визы',
+    name: 'Сапар визы',
     to: '/',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
@@ -45,7 +45,7 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Туристические визы',
+        name: 'Сапар визы',
         to: '/visa/database-tour',
       },
     ],
