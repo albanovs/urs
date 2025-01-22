@@ -178,9 +178,9 @@ const DataVisa = () => {
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
                                             <tr key={visa._id} className="border-b transition duration-200">
                                                 <td className="px-4 py-2">
-                                                    {visa.files[0]?.file ?
+                                                    {visa.formData.photo ?
                                                         <img
-                                                            src={`${api.defaults.baseURL}/uploads/${visa.files[0]?.file}`}
+                                                            src={`${visa.formData.photo}`}
                                                             alt="Фото"
                                                             className="w-6 h-6 object-cover rounded-full"
                                                         />
