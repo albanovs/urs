@@ -1,11 +1,10 @@
-import { api } from "../../../../../api";
 const VisaDocuments = ({ selectedDocument }) => (
     <div className="col-span-2">
         <label className="block font-medium">Дополнительные файлы:</label>
         <div className="col-span-2">
             {selectedDocument.map((item, index) => (
                 <a
-                    href={`${encodeURIComponent(item.file)}`}
+                    href={`${item.file}`}
                     key={index}
                     target="_blank"
                     rel="noopener noreferrer"
