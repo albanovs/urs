@@ -25,6 +25,7 @@ const CreateVisa = () => {
         permit_famstatus: '',
         permit_planned_entry: '',
         permit_planned_exit: '',
+        permit_email: '',
         selectedVisa: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +59,7 @@ const CreateVisa = () => {
             permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
             permit_lname, permit_fname, permit_bdate, permit_gender,
             permit_pin, permit_education, permit_famstatus,
-            permit_planned_entry, permit_planned_exit } = formData;
+            permit_planned_entry, permit_planned_exit, permit_email } = formData;
         const formDataToSubmit = new FormData();
 
         if (selectedImage) formDataToSubmit.append('photo', selectedImage);
@@ -78,6 +79,7 @@ const CreateVisa = () => {
         formDataToSubmit.append('permit_famstatus', permit_famstatus);
         formDataToSubmit.append('permit_planned_entry', permit_planned_entry);
         formDataToSubmit.append('permit_planned_exit', permit_planned_exit);
+        formDataToSubmit.append('permit_email', permit_email);
 
         additionalFiles.forEach((file) => {
             formDataToSubmit.append('additionalFiles', file);
@@ -110,6 +112,7 @@ const CreateVisa = () => {
                 permit_famstatus: '',
                 permit_planned_entry: '',
                 permit_planned_exit: '',
+                permit_email: '',
             });
         } catch (error) {
             console.error(error);
@@ -123,7 +126,7 @@ const CreateVisa = () => {
         , permit_srok, permit_doc_nom, permit_docstart, permit_docend, permit_doctype,
         permit_lname, permit_fname, permit_bdate, permit_gender,
         permit_pin, permit_education, permit_famstatus,
-        permit_planned_entry, permit_planned_exit,
+        permit_planned_entry, permit_planned_exit, permit_email
     } = formData;
 
     return (
@@ -275,7 +278,7 @@ const CreateVisa = () => {
                     </div>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-4 items-center justify-between mt-5">
-                    <div className='flex items-center justify-between'>
+                    <div className='flex items-center gap-2 justify-between'>
                         <label className="block w-40 text-gray-700 text-xs font-medium mb-2">Дополнительные файлы</label>
                         <div
                             className="lg:w-80 border border-gray-300 px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
@@ -297,6 +300,7 @@ const CreateVisa = () => {
                             multiple
                             className="hidden"
                         />
+                        <FormInput label="email" type="text" value={permit_email} onChange={handleChange} name="permit_email" required />
                     </div>
                     <div className="">
                         <button

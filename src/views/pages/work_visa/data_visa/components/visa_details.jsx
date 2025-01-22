@@ -19,7 +19,7 @@ const VisaDetails = ({ selectedVisa, handleInputChange, countries }) => (
             ['Плановая дата выезда', 'planned_exit'],
             ['Образование', 'education'],
             ['ПИН', 'pin'],
-            ['Должность', 'position'],
+            ['email', 'email'],
             ['Адрес проживания', 'address'],
         ].map(([label, field], idx) => {
             const isDate = ['planned_entry', 'planned_exit', 'docstart', 'docend', 'bdate'].includes(field);

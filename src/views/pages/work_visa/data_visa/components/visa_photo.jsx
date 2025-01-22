@@ -12,6 +12,8 @@ const VisaPhotoSection = ({ visa, selectedVisa }) => {
                     className="w-28 h-36 object-cover mb-2 border rounded-md"
                 />
             );
+        } else if (visa) {
+
         }
         return <PiUserCircleLight className="w-28 h-36 mb-2" color="gray" />;
     };

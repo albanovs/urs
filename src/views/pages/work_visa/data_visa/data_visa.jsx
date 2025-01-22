@@ -162,9 +162,9 @@ const DataVisa = () => {
                                     <th className="px-4 py-2 font-semibold">Фото</th>
                                     <th className="px-4 py-2 font-semibold">Имя</th>
                                     <th className="px-4 py-2 font-semibold">Фамилия</th>
-                                    <th className="px-4 py-2 font-semibold">Номер паспорта</th>
-                                    <th className="px-4 py-2 font-semibold">Начало</th>
-                                    <th className="px-4 py-2 font-semibold">Окончание</th>
+                                    <th className="px-4 py-2 font-semibold">Данные паспорта</th>
+                                    <th className="px-4 py-2 font-semibold">Начало действия визы</th>
+                                    <th className="px-4 py-2 font-semibold">Окончание действия визы</th>
                                     <th className="px-4 py-2 font-semibold">Страна</th>
                                     <th className="px-4 py-2 font-semibold">Действия</th>
                                 </tr>
@@ -178,9 +178,9 @@ const DataVisa = () => {
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
                                             <tr key={visa._id} className="border-b transition duration-200">
                                                 <td className="px-4 py-2">
-                                                    {visa.formData?.photo ?
+                                                    {visa.files[0]?.file ?
                                                         <img
-                                                            src={`${visa.formData.photo}`}
+                                                            src={`${api.defaults.baseURL}/uploads/${visa.files[0]?.file}`}
                                                             alt="Фото"
                                                             className="w-6 h-6 object-cover rounded-full"
                                                         />
