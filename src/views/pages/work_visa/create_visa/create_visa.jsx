@@ -225,6 +225,7 @@ const CreateVisa = () => {
                                         { value: "58", label: "Хорватия" },
                                         { value: "183", label: "Россия" },
                                         { value: "197", label: "Сербия" },
+                                        { value: "40", label: "Канада" },
                                         { value: "", label: "Другое" },
                                     ]}
                                     required
