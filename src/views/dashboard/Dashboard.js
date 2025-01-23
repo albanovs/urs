@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (visas.length > 0) {
-      const countries = ['Бангладеш','Россия', 'Хорватия', 'Сербия', 'Кыргызстан'];
+      const countries = ['Бангладеш', 'Канада', 'Россия', 'Хорватия', 'Сербия', 'Кыргызстан'];
       const countryCount = new Array(countries.length).fill(0);
       const currentYear = new Date().getFullYear();
       const currentMonth = new Date().getMonth();
@@ -42,7 +42,8 @@ const Dashboard = () => {
     }
   }, [visas]);
 
-  const monthCountVisa = countryStats?.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const latestVisas = visas
@@ -55,7 +56,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <WidgetStatsAExample monthCountVisa={monthCountVisa} />
+      <WidgetStatsAExample monthCountVisa={visas.length} yearCountVisa={visas.length} />
       <CCard className="mb-4">
         <CCardHeader>Количество виз по странам за текущий месяц</CCardHeader>
         <CCardBody><ProgressBackgrounds2Example countryStats={countryStats} /></CCardBody>

@@ -13,7 +13,7 @@ import {
   CWidgetStatsA,
 } from '@coreui/react'
 
-export const WidgetStatsAExample = ({ monthCountVisa }) => {
+export const WidgetStatsAExample = ({ monthCountVisa, yearCountVisa }) => {
   return (
     <CRow>
       <CCol sm={6}>
@@ -95,7 +95,7 @@ export const WidgetStatsAExample = ({ monthCountVisa }) => {
           color="info"
           value={
             <>
-              {monthCountVisa}
+              {yearCountVisa}
             </>
           }
           title="Общее количество виз за текущий год"
