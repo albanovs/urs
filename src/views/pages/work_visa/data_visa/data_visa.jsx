@@ -25,7 +25,7 @@ const DataVisa = () => {
     const [selectedDocument, setSelectedDocument] = useState(null)
     const [editMode, setEditMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const countries = ['Все страны', 'Сербия', 'Хорватия', 'Россия', , 'Бангладеш', 'Кыргызстан'];
+    const countries = ['Все страны', 'Сербия', 'Хорватия', 'Россия', 'Бангладеш', 'Канада', 'Кыргызстан'];
 
 
     const fetchData = async () => {
