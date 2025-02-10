@@ -6,9 +6,9 @@ const DataVisa = React.lazy(() => import('./views/pages/work_visa/data_visa/data
 
 const routes = [
   { path: '/', exact: true, name: 'Главная' },
-  { path: '/dashboard', name: 'Статистика', element: Dashboard },
+  // { path: '/dashboard', name: 'Статистика', element: Dashboard },
   { path: '/visa/create', name: 'Создать рабочую визу', element: CreateVisa },
-  { path: '/visa/database', name: 'Рабочие визы', element: DataVisa },
+  { path: '/dashboard', name: 'Рабочие визы', element: DataVisa },
 ]
 
 export default routes

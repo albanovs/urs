@@ -157,16 +157,17 @@ const DataVisa = () => {
                 <CCard className="overflow-x-auto min-h-96 border mt-4">
                     <div style={{ maxHeight: '420px', overflowY: 'auto' }}>
                         <CTable className="w-full text-left table-auto">
-                            <CTableHead className="text-xs sm:text-sm">
+                            <CTableHead className="text-xs  sm:text-sm">
                                 <tr>
                                     <th className="px-4 py-2 font-semibold">Фото</th>
                                     <th className="px-4 py-2 font-semibold">Имя</th>
                                     <th className="px-4 py-2 font-semibold">Фамилия</th>
-                                    <th className="px-4 py-2 font-semibold">Данные документа</th>
-                                    <th className="px-4 py-2 font-semibold">Начало действия визы</th>
-                                    <th className="px-4 py-2 font-semibold">Окончание действия визы</th>
+                                    <th className="px-4 py-2 font-semibold">Срок</th>
+                                    <th className="px-4 py-2 font-semibold">Документ</th>
+                                    <th className="px-4 py-2 font-semibold">Почта</th>
+                                    <th className="px-4 py-2 font-semibold">Начало визы</th>
+                                    <th className="px-4 py-2 font-semibold">Окончание визы</th>
                                     <th className="px-4 py-2 font-semibold">Страна</th>
-                                    <th className="px-4 py-2 font-semibold">Действия</th>
                                 </tr>
                             </CTableHead>
                             <CTableBody className="text-xs sm:text-sm">
@@ -176,7 +177,7 @@ const DataVisa = () => {
                                             <ReactLoading effect="spin" type="bubbles" className="border-none" color="#0394fc" height={60} width={60} />
                                         </tr>
                                         : filteredVisas.length > 0 ? filteredVisas.map((visa) => (
-                                            <tr key={visa._id} className="border-b transition duration-200">
+                                            <tr key={visa._id} onClick={() => handleEdit(visa._id)} className=" transition duration-200">
                                                 <td className="px-4 py-2">
                                                     {visa.formData.photo ?
                                                         <img
@@ -190,28 +191,30 @@ const DataVisa = () => {
                                                             </div>
                                                         )}
                                                 </td>
-                                                <td className="px-4">{visa.formData?.permit_fname || 'N/A'}</td>
-                                                <td className="px-4">{visa.formData?.permit_lname || 'N/A'}</td>
-                                                <td className="px-4">{visa.formData?.permit_doc_nom || 'N/A'}</td>
-                                                <td className="px-4">
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px]">{visa.formData?.permit_fname || 'N/A'}</td>
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px]">{visa.formData?.permit_lname || 'N/A'}</td>
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px] w-40">{visa.formData?.permit_srok || 'N/A'}</td>
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px]">{visa.formData?.permit_doc_nom || 'N/A'}</td>
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px]">{visa.formData?.permit_email || 'N/A'}</td>
+                                                <td className="px-4 hover:underline cursor-pointer hover:text-blue-600 text-[12px]">
                                                     {visa.formData?.permit_planned_entry
                                                         ? new Date(visa.formData.permit_planned_entry).toLocaleDateString()
                                                         : 'N/A'}
                                                 </td>
-                                                <td className="px-4">
+                                                <td className="px-4 text-[12px] hover:underline cursor-pointer hover:text-blue-600">
                                                     {visa.formData?.permit_planned_exit
                                                         ? new Date(visa.formData.permit_planned_exit).toLocaleDateString()
                                                         : 'N/A'}
                                                 </td>
-                                                <td className="px-4">{visa.formData?.permit_country || 'N/A'}</td>
-                                                <td className="px-4 flex gap-4 pt-3">
+                                                <td className="px-4 text-[12px] hover:underline cursor-pointer hover:text-blue-600">{visa.formData?.permit_country || 'N/A'}</td>
+                                                {/* <td className="px-4 text-[12px] flex gap-4 pt-3">
                                                     <button onClick={() => handleEdit(visa._id)} className="text-green-500 hover:text-green-700">
                                                         <FaEdit />
                                                     </button>
                                                     <button onClick={() => handleDelete(visa._id)} className="text-red-500 hover:text-red-700">
                                                         <FaTrash />
                                                     </button>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         )) : (
                                             <tr>

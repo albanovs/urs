@@ -4,12 +4,12 @@ import { cilBarChart, cilList, cilNoteAdd, cilPuzzle } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
-  {
-    component: CNavItem,
-    name: 'Главная',
-    to: '/dashboard',
-    icon: <CIcon icon={cilBarChart} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Главная',
+  //   to: '/dashboard',
+  //   icon: <CIcon icon={cilBarChart} customClassName="nav-icon" />,
+  // },
   {
     component: CNavTitle,
     name: 'Визы',
@@ -28,7 +28,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Рабочие визы',
-        to: '/visa/database',
+        to: '/dashboard',
       },
     ],
   },
